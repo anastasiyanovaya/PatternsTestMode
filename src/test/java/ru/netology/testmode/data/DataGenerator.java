@@ -35,27 +35,31 @@ public class DataGenerator {
                 .statusCode(200); // код 200 OK
     }
 
-    public static String getRandomLogin(String locale) {
-        return faker.random(getRandomLogin("en"));
+    public static String getRandomLogin() {
+        return faker.name().username();
     }
 
-    public static String getRandomPassword(String locale) {
-        //var faker = new Faker(new Locale(locale));
-        return faker.random(getRandomPassword("en"));
+    public static String getRandomPassword() {
+        return faker.internet().password();
     }
+
 
     public static class Registration {
         private Registration() {
         }
 
         public static RegistrationDto getUser(String status) {
-            return new RegistrationDto(getRandomLogin(status), getRandomPassword(status));
+            RegistrationDto user = new RegistrationDto(getRandomLogin(), getRandomPassword(), status);
+            return user;
         }
 
         public static RegistrationDto getRegisteredUser(String status) {
-            return new RegistrationDto(sendRequest(getUser("active")));
+            RegistrationDto registeredUser = getUser(status);
+            sendRequest(registeredUser);
+            return registeredUser;
         }
     }
+
     @Value
     public static class RegistrationDto {
         String login;
