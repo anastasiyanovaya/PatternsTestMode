@@ -7,6 +7,7 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import lombok.Value;
 import lombok.val;
+import org.junit.jupiter.api.BeforeAll;
 
 import java.util.Locale;
 
@@ -20,6 +21,7 @@ public class DataGenerator {
             .setContentType(ContentType.JSON)
             .log(LogDetail.ALL)
             .build();
+
     private static final Faker faker = new Faker(new Locale("en"));
 
     private DataGenerator() {
@@ -28,11 +30,11 @@ public class DataGenerator {
     private static void sendRequest(RegistrationDto user) {
         given() // "дано"
                 .spec(requestSpec) // указываем, какую спецификацию используем
-                .body(new RegistrationDto("vasya", "password", "active")) // передаём в теле объект, который будет преобразован в JSON
+                .body(user) // передаём в теле объект, который будет преобразован в JSON
                 .when() // "когда"
                 .post("/api/system/users") // на какой путь относительно BaseUri отправляем запрос
                 .then() // "тогда ожидаем"
-                .statusCode(200); // код 200 OK
+                .statusCode(200);
     }
 
     public static String getRandomLogin() {
