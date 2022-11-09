@@ -56,10 +56,10 @@ class AuthTest {
         $("[data-test-id=\"login\"] input").setValue(blockedUser.getLogin());
         $("[data-test-id=\"password\"] input").setValue(blockedUser.getPassword());
         $("[data-test-id=\"action-login\"] .button__text").click();
-        $("[data-test-id=\"error-notification\"]").should(visible, Duration.ofSeconds(15));
+        $("[data-test-id=\"error-notification\"]").shouldBe(Condition.visible);
         $(".notification__title").shouldHave(Condition.text("Ошибка"));
         $(".notification__content").shouldHave(Condition.text("Ошибка!"));
-        $(".notification__content").shouldHave(Condition.text("Неверно указан логин или пароль"));
+        $(".notification__content").shouldHave(Condition.text("Пользователь заблокирован"));
     }
 
 
